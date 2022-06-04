@@ -33,7 +33,7 @@ const template = {
 
 const toWriteFile = (task, category) => {
   const taskBody = JSON.stringify(task)
-  return writeFile(`${__dirname}/task/${category}.json`, taskBody, {encoding: 'utf-8'})
+  writeFile(`${__dirname}/task/${category}.json`, taskBody, {encoding: 'utf-8'})
 }
 
 const toReadFile = (category) => {
@@ -71,7 +71,7 @@ const middleware = [
 
 middleware.forEach((it) => server.use(it))
 
-server.post('/api/v1/tasks/:category', async (req, res) => {
+server.post('/api/v1/task/:category', async (req, res) => {
  const { category } = req.params
  const { title } = req.body
  const newTask = {
@@ -86,15 +86,16 @@ server.post('/api/v1/tasks/:category', async (req, res) => {
     toWriteFile(list, category)
     return list
   })
-  .catch( async() => {
-    await toWriteFile([newTask, category])
+  .catch(async() => {
+    res.send("add")
+    await toWriteFile([newTask], category)
     return [newTask]
   })
   res.json(addTask)
 })
 
-server.get('/api/v1/tasks/:category', async (req, res) => {
-  const category = req.params
+server.get('/api/v1/task/:category', async (req, res) => {
+  const { category } = req.params
   const dataTask = await toReadFile(category)
     .then((data) => filteringRemoteTasks(data))
     .catch(() => {
@@ -104,7 +105,7 @@ server.get('/api/v1/tasks/:category', async (req, res) => {
   res.json(dataTask)
 })
 
-server.get('/api/v1/tasks/:category/:timespan', async (req, res) => {
+server.get('/api/v1/task/:category/:timespan', async (req, res) => {
   const { category, timespan } = req.params
   const time = {
     day: 86400000,
