@@ -25,7 +25,7 @@ try {
 const template = {
   taskId: '',
   title: '',
-  status: 'new',
+  status: 'New',
   _isDeleted: false,
   _createdAt: 0,
   _deletedAt: 0
@@ -133,6 +133,46 @@ server.get('/api/v1/task/:category/:timespan', async (req, res) => {
       res.status(404)
       res.end()
     })
+  res.json(data)
+})
+
+server.patch('/api/v1/task/:category/:id', async (req, res) => {
+  const { category, id } = req.params
+  const { status } = req.body
+  const statusArray = ['Done', 'New', 'In progress', 'Skipped']
+  const check = statusArray.includes(status)
+  if (!check) {
+    res.status(501)
+    res.json({"status" :"error", "message": "incorrect status"})
+    res.end()
+  }
+  const data = await toReadFile(category)
+    .then((file) => {
+      return file.map((task) => {
+        return task.taskId !== id ? task : { ...task, status }
+      })
+    })
+    .catch(() => {
+      res.status(404)
+      res.end()
+    })
+  toWriteFile(data, category)
+  res.json(data)
+})
+
+server.delete('/api/v1/task/:category/:id', async (req, res) => {
+  const { category, id } = req.params
+  const data = await toReadFile(category)
+    .then((file) => {
+      return file.map((task) => {
+        return task.taskId !== id ? task : { ...task, _isDeleted: true, _deletedAt: +new Date() }
+      })
+    })
+    .catch(() => {
+      res.status(404)
+      res.end()
+    })
+  toWriteFile(data, category)
   res.json(data)
 })
 

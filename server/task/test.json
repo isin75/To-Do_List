@@ -1,1 +1,34 @@
-[{"taskId":"7M91ZVLV-jXN2Du1SvlqD","title":"Ono jiwoe","status":"new","_isDeleted":false,"_createdAt":1654362271732,"_deletedAt":0}]
+[
+    {
+        "taskId": "7M91ZVLV-jXN2Du1SvlqD",
+        "title": "Ono jiwoe",
+        "status": "Done",
+        "_isDeleted": true,
+        "_createdAt": 1654362271732,
+        "_deletedAt": 1654439772175
+    },
+    {
+        "taskId": "32AIa2yyWcD_FPgv_xpuS",
+        "title": "удалил",
+        "status": "Skipped",
+        "_isDeleted": true,
+        "_createdAt": 1654439909153,
+        "_deletedAt": 1654440007499
+    },
+    {
+        "taskId": "SnYCixou9PVwizH-ZHXjW",
+        "title": "не удалил",
+        "status": "In progress",
+        "_isDeleted": false,
+        "_createdAt": 1654439924869,
+        "_deletedAt": 0
+    },
+    {
+        "taskId": "z2ozTz4UaKmQnv68SMmHN",
+        "title": "Rabotaet",
+        "status": "New",
+        "_isDeleted": false,
+        "_createdAt": 1654440104438,
+        "_deletedAt": 0
+    }
+]
