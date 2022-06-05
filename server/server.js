@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser'
 import config from './config'
 import Html from '../client/html'
 
-const { readFile, writeFile } = require('fs').promises
+const { readFile, writeFile, readdir } = require('fs').promises
 
 require('colors')
 
@@ -92,6 +92,15 @@ server.post('/api/v1/task/:category', async (req, res) => {
     return [newTask]
   })
   res.json(addTask)
+})
+
+server.get('/api/v1/categories', async(req, res) => {
+  const category = await readdir(`${__dirname}/task`)
+  const nameCategory = category.reduce((acc, nameCa) => {
+    const ac = [...acc , nameCa.slice(0, -5)]
+    return ac
+  }, [])
+  res.json(nameCategory)  
 })
 
 server.get('/api/v1/task/:category', async (req, res) => {
